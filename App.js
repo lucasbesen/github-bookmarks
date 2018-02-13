@@ -4,25 +4,41 @@ import {
   Text,
   ScrollView,
   View,
-  Platform
+  Platform,
+  TouchableOpacity
 } from 'react-native';
+import Repo from './components/Repo';
 
 export default class App extends Component {
+  state = {
+    repos: [
+      {
+        id: 1,
+        thumbnail: 'https://warroom.securestate.com/wp-content/uploads/2015/12/github-mark.png',
+        title: 'Repo 1',
+        author: 'lucasbesen'
+      },
+      {
+        id: 2,
+        thumbnail: 'https://warroom.securestate.com/wp-content/uploads/2015/12/github-mark.png',
+        title: 'Repo 2',
+        author: 'lucasbesen'
+      },
+    ]
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Learning React Native</Text>
-      </View>
+          <TouchableOpacity onPress={() => {}}>
+            <Text style={styles.headerButton}>+</Text>
+          </TouchableOpacity>
+        </View>
 
         <ScrollView contentContainerStyle={styles.repoList}>
-          <View style={styles.repo} />
-          <View style={styles.repo} />
-          <View style={styles.repo} />
-          <View style={styles.repo} />
-          <View style={styles.repo} />
-          <View style={styles.repo} />
-          <View style={styles.repo} />
+          { this.state.repos.map(repo => <Repo key={repo.id} data={repo} />) }
         </ScrollView>
       </View>
     );
@@ -38,7 +54,9 @@ const styles = StyleSheet.create({
     height: (Platform.OS === 'ios') ? 70 : 50,
     paddingTop: (Platform.OS === 'ios') ? 20 : 0,
     backgroundColor: '#FFF',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
     alignItems: 'center',
   },
   headerText: {
@@ -48,13 +66,10 @@ const styles = StyleSheet.create({
   repoList: {
     padding: 20,
   },
-  repo: {
-    padding: 20,
-    backgroundColor: '#FFF',
-    height: 120,
-    borderRadius: 5,
-    marginBottom: 20,
-
+  headerButton: {
+    fontSize: 24,
+    fontWeight: 'bold',
   }
+
 
 });
