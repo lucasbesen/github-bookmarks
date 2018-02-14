@@ -8,9 +8,11 @@ import {
   TouchableOpacity
 } from 'react-native';
 import Repo from './components/Repo';
+import NewRepoModal from './components/NewRepoModal';
 
 export default class App extends Component {
   state = {
+    modalVisible: false,
     repos: [
       {
         id: 1,
@@ -27,12 +29,16 @@ export default class App extends Component {
     ]
   };
 
+  _addRepository = () => {
+
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Learning React Native</Text>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => this.setState({ modalVisible: true })}>
             <Text style={styles.headerButton}>+</Text>
           </TouchableOpacity>
         </View>
@@ -40,6 +46,11 @@ export default class App extends Component {
         <ScrollView contentContainerStyle={styles.repoList}>
           { this.state.repos.map(repo => <Repo key={repo.id} data={repo} />) }
         </ScrollView>
+        <NewRepoModal
+          onSubmit={this._addRepository}
+          onCancel={() => this.setState({ modalVisible: false })}
+          visible={this.state.modalVisible}
+        />
       </View>
     );
   }
@@ -50,6 +61,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#333',
   },
+
   header: {
     height: (Platform.OS === 'ios') ? 70 : 50,
     paddingTop: (Platform.OS === 'ios') ? 20 : 0,
@@ -59,13 +71,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: 'center',
   },
+
   headerText: {
   fontSize: 16,
       fontWeight: 'bold',
   },
+
   repoList: {
     padding: 20,
   },
+
   headerButton: {
     fontSize: 24,
     fontWeight: 'bold',
